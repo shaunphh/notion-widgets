@@ -3,116 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook Page Widget</title>
+    <title>Facebook Posts Widget</title>
     <style>
-        body {
+        * {
             margin: 0;
-            padding: 20px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f8f9fa;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        .container {
-            max-width: 500px;
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+        }
+
+        .widget-container {
+            max-width: 600px;
             margin: 0 auto;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             overflow: hidden;
         }
-        
-        .header {
+
+        .widget-header {
             background: linear-gradient(135deg, #1877f2 0%, #42a5f5 100%);
             color: white;
             padding: 20px;
             text-align: center;
         }
-        
-        .header h2 {
-            margin: 0;
-            font-size: 20px;
+
+        .widget-header h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
         }
-        
-        .setup-section {
-            padding: 20px;
-            background: #e3f2fd;
-            border-left: 4px solid #1877f2;
-            margin: 20px;
-            border-radius: 8px;
-        }
-        
-        .setup-section h3 {
-            color: #1565c0;
-            margin-bottom: 10px;
-        }
-        
-        .setup-section p {
-            margin-bottom: 8px;
+
+        .widget-header p {
+            opacity: 0.9;
             font-size: 14px;
         }
-        
+
+        .setup-section {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e4e6ea;
+        }
+
         .url-input {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
+            border: 2px solid #e4e6ea;
+            border-radius: 8px;
             font-size: 14px;
-            margin: 10px 0;
+            margin-bottom: 12px;
         }
-        
-        .update-btn {
+
+        .url-input:focus {
+            outline: none;
+            border-color: #1877f2;
+        }
+
+        .load-btn {
             background: #1877f2;
             color: white;
             border: none;
             padding: 12px 24px;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
+            font-weight: 600;
             width: 100%;
         }
-        
-        .update-btn:hover {
+
+        .load-btn:hover {
             background: #166fe5;
         }
-        
-        .fb-container {
-            padding: 20px;
-            text-align: center;
+
+        .posts-container {
             min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
         }
-        
-        .placeholder {
-            padding: 40px;
-            color: #666;
-            background: #f8f9fa;
-            border-radius: 8px;
+
+        .facebook-embed {
+            width: 100%;
+            min-height: 500px;
+            border: none;
+        }
+
+        .demo-section {
+            padding: 20px;
+            background: #e8f5e8;
+            border-bottom: 1px solid #e4e6ea;
+        }
+
+        .demo-section h3 {
+            color: #2e7d32;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .demo-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            margin: 4px;
+        }
+
+        .demo-btn:hover {
+            background: #45a049;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #65676b;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1877f2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            text-align: center;
+            padding: 40px 20px;
+            color: #e41e3f;
+            background: #ffeaea;
             margin: 20px;
+            border-radius: 8px;
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 16px;
+            margin: 20px;
+            border-radius: 4px;
+        }
+
+        .info-box h4 {
+            color: #1976d2;
+            margin-bottom: 8px;
+        }
+
+        .info-box p {
+            color: #424242;
+            font-size: 14px;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h2>📘 Facebook Page Feed</h2>
+    <div class="widget-container">
+        <div class="widget-header">
+            <h2>📘 Facebook Posts Feed</h2>
+            <p>View recent posts from Facebook pages</p>
         </div>
-        
+
+        <div class="info-box">
+            <h4>How this works:</h4>
+            <p>This widget tries different methods to show Facebook posts. Due to Facebook's restrictions, some pages may only show the page header instead of recent posts.</p>
+        </div>
+
+        <div class="demo-section">
+            <h3>Try these example pages:</h3>
+            <button class="demo-btn" onclick="loadPage('https://www.facebook.com/facebook')">Facebook</button>
+            <button class="demo-btn" onclick="loadPage('https://www.facebook.com/microsoft')">Microsoft</button>
+            <button class="demo-btn" onclick="loadPage('https://www.facebook.com/google')">Google</button>
+            <button class="demo-btn" onclick="loadPage('https://www.facebook.com/riverforestleixlipresidentsassociation')">Your Page</button>
+        </div>
+
         <div class="setup-section">
-            <h3>Setup Instructions:</h3>
-            <p>1. Enter your Facebook page URL below</p>
-            <p>2. Click "Update Widget" to load your page</p>
-            <p>3. The Facebook feed will appear below</p>
-            <br>
             <input type="text" 
                    class="url-input" 
                    id="fbPageUrl" 
-                   placeholder="https://www.facebook.com/riverforestleixlipresidentsassociation/"
+                   placeholder="Enter Facebook page URL..."
                    value="">
-            <button class="update-btn" onclick="updateFacebookWidget()">Update Widget</button>
+            <button class="load-btn" onclick="loadCustomPage()">Load Posts</button>
         </div>
-        
-        <div class="fb-container" id="fbContainer">
-            <div class="placeholder">
-                Enter a Facebook page URL above to load the feed
+
+        <div class="posts-container" id="postsContainer">
+            <div class="loading">
+                <div>Click a demo button or enter a Facebook page URL above</div>
             </div>
         </div>
     </div>
@@ -122,9 +210,74 @@
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"></script>
 
     <script>
-        function updateFacebookWidget() {
+        function loadPage(url) {
+            const container = document.getElementById('postsContainer');
+            const input = document.getElementById('fbPageUrl');
+            
+            input.value = url;
+            
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div>Loading Facebook posts...</div>
+                </div>
+            `;
+
+            // Try method 1: Facebook Page Plugin with timeline focus
+            setTimeout(() => {
+                container.innerHTML = '';
+                
+                const fbDiv = document.createElement('div');
+                fbDiv.className = 'fb-page';
+                fbDiv.setAttribute('data-href', url);
+                fbDiv.setAttribute('data-tabs', 'timeline');
+                fbDiv.setAttribute('data-width', '500');
+                fbDiv.setAttribute('data-height', '600');
+                fbDiv.setAttribute('data-small-header', 'true');
+                fbDiv.setAttribute('data-adapt-container-width', 'true');
+                fbDiv.setAttribute('data-hide-cover', 'true');
+                fbDiv.setAttribute('data-show-facepile', 'false');
+                
+                fbDiv.innerHTML = `
+                    <blockquote cite="${url}" class="fb-xfbml-parse-ignore">
+                        <a href="${url}">Loading posts from this Facebook page...</a>
+                    </blockquote>
+                `;
+                
+                container.appendChild(fbDiv);
+                
+                // Initialize Facebook plugin
+                if (window.FB && window.FB.XFBML) {
+                    window.FB.XFBML.parse(container);
+                } else {
+                    // Wait for FB SDK to load
+                    setTimeout(() => {
+                        if (window.FB && window.FB.XFBML) {
+                            window.FB.XFBML.parse(container);
+                        }
+                    }, 2000);
+                }
+                
+                // Fallback: if no posts show after 10 seconds, show message
+                setTimeout(() => {
+                    const fbContent = container.querySelector('.fb-page');
+                    if (fbContent && fbContent.offsetHeight < 200) {
+                        container.innerHTML += `
+                            <div class="error">
+                                This Facebook page may not allow post embedding. You're seeing the page header only.<br><br>
+                                <a href="${url}" target="_blank" style="color: #1877f2; text-decoration: none;">
+                                    → Visit the page directly on Facebook
+                                </a>
+                            </div>
+                        `;
+                    }
+                }, 10000);
+                
+            }, 500);
+        }
+
+        function loadCustomPage() {
             const url = document.getElementById('fbPageUrl').value.trim();
-            const container = document.getElementById('fbContainer');
             
             if (!url) {
                 alert('Please enter a Facebook page URL');
@@ -136,51 +289,14 @@
                 return;
             }
             
-            // Clear existing content
-            container.innerHTML = '';
-            
-            // Create Facebook Page Plugin
-            const fbPageDiv = document.createElement('div');
-            fbPageDiv.className = 'fb-page';
-            fbPageDiv.setAttribute('data-href', url);
-            fbPageDiv.setAttribute('data-tabs', 'timeline');
-            fbPageDiv.setAttribute('data-width', '460');
-            fbPageDiv.setAttribute('data-height', '400');
-            fbPageDiv.setAttribute('data-small-header', 'false');
-            fbPageDiv.setAttribute('data-adapt-container-width', 'true');
-            fbPageDiv.setAttribute('data-hide-cover', 'false');
-            fbPageDiv.setAttribute('data-show-facepile', 'false');
-            
-            fbPageDiv.innerHTML = `<blockquote cite="${url}" class="fb-xfbml-parse-ignore">
-                <a href="${url}">Loading Facebook Page...</a>
-            </blockquote>`;
-            
-            container.appendChild(fbPageDiv);
-            
-            // Reparse Facebook widgets
-            if (window.FB) {
-                window.FB.XFBML.parse();
-            } else {
-                // If FB SDK not loaded yet, wait and try again
-                setTimeout(() => {
-                    if (window.FB) {
-                        window.FB.XFBML.parse();
-                    }
-                }, 2000);
-            }
+            loadPage(url);
         }
-        
-        // Example demo
-        function loadDemo() {
-            document.getElementById('fbPageUrl').value = 'https://www.facebook.com/facebook';
-            updateFacebookWidget();
-        }
-        
-        // Auto-load demo for testing
+
+        // Auto-load your page as example
         window.addEventListener('load', () => {
             setTimeout(() => {
-                // You can uncomment this to auto-load Facebook's own page as demo
-                // loadDemo();
+                // You can uncomment this to auto-load your page
+                // loadPage('https://www.facebook.com/riverforestleixlipresidentsassociation');
             }, 1000);
         });
     </script>

@@ -3,197 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RSS Feed Widget</title>
+    <title>Facebook Page Widget</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
+            margin: 0;
+            padding: 20px;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f8f9fa;
-            padding: 20px;
         }
-
-        .widget-container {
-            max-width: 600px;
+        
+        .container {
+            max-width: 500px;
             margin: 0 auto;
             background: white;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             overflow: hidden;
         }
-
-        .widget-header {
+        
+        .header {
             background: linear-gradient(135deg, #1877f2 0%, #42a5f5 100%);
             color: white;
             padding: 20px;
             text-align: center;
         }
-
-        .widget-header h2 {
-            font-size: 24px;
-            margin-bottom: 5px;
+        
+        .header h2 {
+            margin: 0;
+            font-size: 20px;
         }
-
-        .widget-header p {
-            opacity: 0.9;
-            font-size: 14px;
-        }
-
-        .feed-container {
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .post {
+        
+        .setup-section {
             padding: 20px;
-            border-bottom: 1px solid #eee;
-            transition: background-color 0.2s;
-        }
-
-        .post:hover {
-            background-color: #f8f9fa;
-        }
-
-        .post:last-child {
-            border-bottom: none;
-        }
-
-        .post-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .post-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-
-        .post-time {
-            font-size: 12px;
-            color: #666;
-            background: #f0f0f0;
-            padding: 4px 8px;
-            border-radius: 12px;
-        }
-
-        .post-content {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 12px;
-        }
-
-        .post-link {
-            display: inline-block;
-            color: #1877f2;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 6px 12px;
-            border: 1px solid #1877f2;
-            border-radius: 6px;
-            transition: all 0.2s;
-        }
-
-        .post-link:hover {
-            background: #1877f2;
-            color: white;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #1877f2;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error {
-            text-align: center;
-            padding: 40px;
-            color: #e74c3c;
-        }
-
-        .setup-info {
-            padding: 20px;
-            background: #e8f5e8;
+            background: #e3f2fd;
+            border-left: 4px solid #1877f2;
             margin: 20px;
             border-radius: 8px;
-            border-left: 4px solid #4caf50;
         }
-
-        .setup-info h3 {
-            color: #2e7d32;
+        
+        .setup-section h3 {
+            color: #1565c0;
             margin-bottom: 10px;
         }
-
-        .setup-info p {
-            color: #424242;
+        
+        .setup-section p {
             margin-bottom: 8px;
             font-size: 14px;
         }
-
-        .demo-section {
-            text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-        }
-
-        .demo-btn {
-            background: #1877f2;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            margin: 5px;
-            transition: background-color 0.2s;
-        }
-
-        .demo-btn:hover {
-            background: #166fe5;
-        }
-
-        .url-input-section {
-            padding: 20px;
-            background: #f8f9fa;
-            border-top: 1px solid #eee;
-        }
-
+        
         .url-input {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
             border-radius: 6px;
             font-size: 14px;
-            margin-bottom: 10px;
+            margin: 10px 0;
         }
-
-        .load-btn {
-            background: #4caf50;
+        
+        .update-btn {
+            background: #1877f2;
             color: white;
             border: none;
             padding: 12px 24px;
@@ -202,132 +70,119 @@
             font-size: 14px;
             width: 100%;
         }
-
-        .load-btn:hover {
-            background: #45a049;
+        
+        .update-btn:hover {
+            background: #166fe5;
+        }
+        
+        .fb-container {
+            padding: 20px;
+            text-align: center;
+            min-height: 400px;
+        }
+        
+        .placeholder {
+            padding: 40px;
+            color: #666;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="widget-container">
-        <div class="widget-header">
-            <h2>📰 RSS Feed Widget</h2>
-            <p>Pull content from any RSS feed</p>
+    <div class="container">
+        <div class="header">
+            <h2>📘 Facebook Page Feed</h2>
         </div>
-
-        <div class="setup-info">
-            <h3>✅ No API Required!</h3>
-            <p>This widget can pull from any RSS feed including:</p>
-            <p>• News websites (BBC, CNN, TechCrunch)</p>
-            <p>• Blogs and Medium publications</p>
-            <p>• Some social media feeds</p>
-            <p>• YouTube channels</p>
-        </div>
-
-        <div class="demo-section">
-            <h4 style="margin-bottom: 15px;">Try these demo feeds:</h4>
-            <button class="demo-btn" onclick="loadFeed('https://feeds.feedburner.com/TechCrunch')">TechCrunch</button>
-            <button class="demo-btn" onclick="loadFeed('http://feeds.bbci.co.uk/news/rss.xml')">BBC News</button>
-            <button class="demo-btn" onclick="loadFeed('https://medium.com/feed/@Medium')">Medium Blog</button>
-        </div>
-
-        <div class="url-input-section">
+        
+        <div class="setup-section">
+            <h3>Setup Instructions:</h3>
+            <p>1. Enter your Facebook page URL below</p>
+            <p>2. Click "Update Widget" to load your page</p>
+            <p>3. The Facebook feed will appear below</p>
+            <br>
             <input type="text" 
                    class="url-input" 
-                   id="rssUrl" 
-                   placeholder="Enter any RSS feed URL (e.g., https://example.com/feed.xml)"
+                   id="fbPageUrl" 
+                   placeholder="https://www.facebook.com/YourPageName"
                    value="">
-            <button class="load-btn" onclick="loadCustomFeed()">Load Custom Feed</button>
+            <button class="update-btn" onclick="updateFacebookWidget()">Update Widget</button>
         </div>
-
-        <div class="feed-container" id="feedContainer">
-            <div class="loading">
-                Choose a demo feed above or enter your own RSS URL
+        
+        <div class="fb-container" id="fbContainer">
+            <div class="placeholder">
+                Enter a Facebook page URL above to load the feed
             </div>
         </div>
     </div>
 
+    <!-- Facebook SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"></script>
+
     <script>
-        async function loadFeed(url) {
-            const container = document.getElementById('feedContainer');
-            container.innerHTML = '<div class="loading"><div class="loading-spinner"></div>Loading feed...</div>';
-
-            try {
-                // Using RSS2JSON service to bypass CORS
-                const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
-                const response = await fetch(proxyUrl);
-                const data = await response.json();
-
-                if (data.status === 'ok') {
-                    displayFeed(data.items);
-                } else {
-                    throw new Error('Failed to load feed');
-                }
-            } catch (error) {
-                container.innerHTML = `
-                    <div class="error">
-                        ❌ Error loading feed<br>
-                        <small>Try a different URL or check if the feed is accessible</small>
-                    </div>
-                `;
-            }
-        }
-
-        function loadCustomFeed() {
-            const url = document.getElementById('rssUrl').value.trim();
-            if (url) {
-                loadFeed(url);
-            } else {
-                alert('Please enter a valid RSS feed URL');
-            }
-        }
-
-        function displayFeed(items) {
-            const container = document.getElementById('feedContainer');
+        function updateFacebookWidget() {
+            const url = document.getElementById('fbPageUrl').value.trim();
+            const container = document.getElementById('fbContainer');
             
-            if (!items || items.length === 0) {
-                container.innerHTML = '<div class="error">No posts found in this feed</div>';
+            if (!url) {
+                alert('Please enter a Facebook page URL');
                 return;
             }
-
+            
+            if (!url.includes('facebook.com')) {
+                alert('Please enter a valid Facebook page URL');
+                return;
+            }
+            
+            // Clear existing content
             container.innerHTML = '';
-
-            items.slice(0, 10).forEach(item => {
-                const postDiv = document.createElement('div');
-                postDiv.className = 'post';
-                
-                const pubDate = new Date(item.pubDate);
-                const timeAgo = getTimeAgo(pubDate);
-                
-                // Clean up description
-                const description = item.description 
-                    ? item.description.replace(/<[^>]*>/g, '').substring(0, 200) + '...'
-                    : '';
-
-                postDiv.innerHTML = `
-                    <div class="post-header">
-                        <div class="post-time">${timeAgo}</div>
-                    </div>
-                    <div class="post-title">${item.title}</div>
-                    ${description ? `<div class="post-content">${description}</div>` : ''}
-                    <a href="${item.link}" target="_blank" class="post-link">Read More →</a>
-                `;
-
-                container.appendChild(postDiv);
-            });
-        }
-
-        function getTimeAgo(date) {
-            const now = new Date();
-            const diffInSeconds = Math.floor((now - date) / 1000);
             
-            if (diffInSeconds < 60) return 'Just now';
-            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
-            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
-            if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)}d ago`;
+            // Create Facebook Page Plugin
+            const fbPageDiv = document.createElement('div');
+            fbPageDiv.className = 'fb-page';
+            fbPageDiv.setAttribute('data-href', url);
+            fbPageDiv.setAttribute('data-tabs', 'timeline');
+            fbPageDiv.setAttribute('data-width', '460');
+            fbPageDiv.setAttribute('data-height', '400');
+            fbPageDiv.setAttribute('data-small-header', 'false');
+            fbPageDiv.setAttribute('data-adapt-container-width', 'true');
+            fbPageDiv.setAttribute('data-hide-cover', 'false');
+            fbPageDiv.setAttribute('data-show-facepile', 'false');
             
-            return date.toLocaleDateString();
+            fbPageDiv.innerHTML = `<blockquote cite="${url}" class="fb-xfbml-parse-ignore">
+                <a href="${url}">Loading Facebook Page...</a>
+            </blockquote>`;
+            
+            container.appendChild(fbPageDiv);
+            
+            // Reparse Facebook widgets
+            if (window.FB) {
+                window.FB.XFBML.parse();
+            } else {
+                // If FB SDK not loaded yet, wait and try again
+                setTimeout(() => {
+                    if (window.FB) {
+                        window.FB.XFBML.parse();
+                    }
+                }, 2000);
+            }
         }
+        
+        // Example demo
+        function loadDemo() {
+            document.getElementById('fbPageUrl').value = 'https://www.facebook.com/facebook';
+            updateFacebookWidget();
+        }
+        
+        // Auto-load demo for testing
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                // You can uncomment this to auto-load Facebook's own page as demo
+                // loadDemo();
+            }, 1000);
+        });
     </script>
 </body>
 </html>
